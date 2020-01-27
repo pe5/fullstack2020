@@ -47,7 +47,8 @@ const App = (props) => {
           Anecdote with most votes
       </h1>
       {console.log(apu)}
-      {props.anecdotes[votes.indexOf(Math.max(...votes))]}
+      {props.anecdotes[votes.indexOf(Math.max(...votes))]} <br />
+      has {Math.max(...votes)} votes
     </div>  
   )
 }
