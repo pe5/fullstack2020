@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import AddPerson from './components/AddPerson'
 import Persons from './components/Persons'
 import personService from './services/personService'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
   const [newPerson, setNewPerson] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [addMessage, setAddMessage] = useState(null)
 
   const addPerson = (event) => {
       event.preventDefault()
@@ -35,6 +37,16 @@ const App = () => {
                         })
                     setNewPerson('')
                     setNewNumber('')
+                    setAddMessage(`Changed number of ${personObject.name} to ${personObject.number}`)
+                    setTimeout(() => {
+                        setAddMessage(null)
+                    }, 3000)
+                })
+                .catch(error => {
+                    setAddMessage(`Information of ${personObject.name} has already been removed from server`)
+                    setTimeout(() => {
+                        setAddMessage(null)
+                    }, 3000)
                 })
           }
       }
@@ -45,6 +57,10 @@ const App = () => {
                 setPersons(persons.concat(response.data))
                 setNewPerson('')
                 setNewNumber('')
+                setAddMessage(`Added ${personObject.name}`)
+                setTimeout(() => {
+                    setAddMessage(null)
+                }, 3000)
             })
       }
       
@@ -66,6 +82,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={addMessage} />
           <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
       <h2>add a new</h2>
       <AddPerson addPerson={addPerson}
@@ -75,7 +92,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
         />
       <h2>Numbers</h2>
-      <Persons persons={persons} newFilter={newFilter} setPersons={setPersons} />
+      <Persons persons={persons} newFilter={newFilter} setPersons={setPersons} setAddMessage={setAddMessage} />
       
     </div>
   )

@@ -1,7 +1,7 @@
 import React from 'react'
 import personService from '../services/personService'
 
-const Persons = ({persons, setPersons, newFilter}) => {
+const Persons = ({persons, setPersons, newFilter, setAddMessage}) => {
     return (
         <ul>
           {persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase())).map((person, i) => 
@@ -14,6 +14,10 @@ const Persons = ({persons, setPersons, newFilter}) => {
                       setPersons(response.data)
                       })
                     })
+                    setAddMessage(`Deleted ${person.name}`)
+                    setTimeout(() => {
+                        setAddMessage(null)
+                    }, 3000)
                   }
           }}>delete</button>
           </p>
